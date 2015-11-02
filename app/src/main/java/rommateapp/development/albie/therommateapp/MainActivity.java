@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 /**
  * example of getChoreList function
  */
-        /*
+
         HTTP_Connector.editChore edit = httpcon.new editChore();
         Chore test_chore = new Chore("clean kitchen edit", "Clean the bathroom edit", "Matt", "testuser", false, 1);
         test_chore.setChoreId(1);
         edit.execute(test_chore);
-        */
+
     }
 
 

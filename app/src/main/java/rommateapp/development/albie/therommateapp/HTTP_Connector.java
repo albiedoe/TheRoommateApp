@@ -315,21 +315,20 @@ public class HTTP_Connector extends Activity {
     class editChore extends AsyncTask<Chore, String, String> {
         protected String doInBackground(Chore... params) {
             String response = "";
+            String c_id = "";
             try {
                 Chore choreobj = params[0];
-                int groupid = choreobj.groupid;
                 int choreid = choreobj.getChoreId();
-                String c_id = Integer.toString(choreid);
-                String g_id = Integer.toString(groupid);
+                 c_id = Integer.toString(choreid);
                 String title = choreobj.title;
                 String desc = choreobj.desc;
                 String requestUser = choreobj.requestUser;
                 String assignedUser = choreobj.assignedUser;
 
-                String urlParameters = "title=" + URLEncoder.encode(title, "UTF-8") + "&desc=" + URLEncoder.encode(desc, "UTF-8")
+                String urlParameters = "title=" + URLEncoder.encode(title, "UTF-8")
+                        + "&desc=" + URLEncoder.encode(desc, "UTF-8")
                         + "&requestUser=" + URLEncoder.encode(requestUser, "UTF-8")
                         + "&assignedUser=" + URLEncoder.encode(assignedUser, "UTF-8")
-                        + "&groupid=" + URLEncoder.encode(g_id, "UTF-8")
                         + "&choreid=" + URLEncoder.encode(c_id, "UTF-8");
                 URL url = new URL("http://104.236.10.133/edit_chore.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
