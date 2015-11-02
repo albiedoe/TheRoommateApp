@@ -46,15 +46,26 @@ public class MainActivity extends AppCompatActivity {
         adder.execute(test_chore);
         */
 /**
- * example of getChoreList function
+ * example of editChore function
  */
-
+/*
         HTTP_Connector.editChore edit = httpcon.new editChore();
         Chore test_chore = new Chore("clean kitchen edit", "Clean the bathroom edit", "Matt", "testuser", false, 1);
         test_chore.setChoreId(1);
         edit.execute(test_chore);
 
+        */
+
+        /**
+         * example of deleteChore function
+         */
+
+        /*
+    HTTP_Connector.deleteChore deletor = httpcon.new deleteChore();
+        deletor.execute(1);
+        */
     }
+
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

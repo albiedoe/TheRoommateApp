@@ -365,4 +365,53 @@ public class HTTP_Connector extends Activity {
             Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
         }
     }
+
+
+
+
+    class deleteChore extends AsyncTask<Integer, String, String> {
+        protected String doInBackground(Integer... params) {
+            String response = "";
+
+            try {
+                int c_id = params[0];
+                String chore_id = Integer.toString(c_id);
+
+
+                String urlParameters = "choreid=" + URLEncoder.encode(chore_id, "UTF-8");
+                URL url = new URL("http://104.236.10.133/delete_chore.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+            } catch (MalformedURLException ex) {
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+
+            }
+// and some more
+            catch (IOException ex) {
+
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+        }
+    }
 }
