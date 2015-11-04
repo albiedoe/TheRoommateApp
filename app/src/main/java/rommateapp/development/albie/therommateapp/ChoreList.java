@@ -14,8 +14,7 @@ public class ChoreList {
     public int choreListId;
     public ArrayList<Chore> choresList;
 
-    public ChoreList(int choreListId, ArrayList<Chore> choresList) {
-        this.choreListId = choreListId;
+    public ChoreList(ArrayList<Chore> choresList) {
         this.choresList = choresList;
     }
 

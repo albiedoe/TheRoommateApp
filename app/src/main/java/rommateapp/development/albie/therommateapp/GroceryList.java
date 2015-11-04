@@ -12,21 +12,14 @@ import java.util.ArrayList;
  */
 public class GroceryList {
 
-    public int groceryListId;
+
     public ArrayList<Grocery> groceryList;
 
-    public GroceryList(int groceryListId, ArrayList<Grocery> groceryList) {
-        this.groceryListId = groceryListId;
+    public GroceryList(ArrayList<Grocery> groceryList) {
+
         this.groceryList = groceryList;
     }
 
-    public int getGroceryListId() {
-        return groceryListId;
-    }
-
-    public void setGroceryListId(int groceryListId) {
-        this.groceryListId = groceryListId;
-    }
 
     public ArrayList<Grocery> getGroceryList() {
         return groceryList;

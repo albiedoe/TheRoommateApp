@@ -1,16 +1,21 @@
 package rommateapp.development.albie.therommateapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +35,11 @@ public class MainActivity extends AppCompatActivity {
 /**
  * example of getChoreList function
  */
-        /*
-        HTTP_Connector.getChoreList getchores = httpcon.new getChoreList();
+
+        HTTP_Connector.getChoreList getchores = httpcon.new getChoreList(this);
         getchores.execute("1");
-        if(getchores.getStatus() == AsyncTask.Status.FINISHED) {
-            getchores.createChoreListObject();
-        }
-        */
+
+
         /**
          * example of addChore function
          */
@@ -64,8 +67,29 @@ public class MainActivity extends AppCompatActivity {
     HTTP_Connector.deleteChore deletor = httpcon.new deleteChore();
         deletor.execute(1);
         */
-    }
+/*
+        HTTP_Connector.getGroceryList get_grocery_list = httpcon.new getGroceryList();
+        get_grocery_list.execute("0");
 
+        if(get_grocery_list.getStatus() == AsyncTask.Status.FINISHED) {
+
+          ArrayList grc_obj = get_grocery_list.buildGroceryListObj();
+        }
+        */
+    }
+@Override
+    public void processFinish(ArrayList<Chore> response){
+
+        ArrayList<Chore> chores = response;
+
+        Toast.makeText(this,"we have chores: "+ chores.toString(),Toast.LENGTH_SHORT).show();
+    }
+    public void processFinish(GroceryList response){
+
+        GroceryList grocery = response;
+
+        Toast.makeText(this,"we have groceries: "+ grocery.toString(),Toast.LENGTH_SHORT).show();
+    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
