@@ -682,4 +682,81 @@ public class HTTP_Connector extends Activity {
     }
 
 
+
+
+
+
+
+
+    class getMaintenanceList extends AsyncTask<String, String, String> {
+        ArrayList<MaintenanceItem> mnt_itm = new ArrayList<>();
+        private AsyncResponse delegate;
+        public getMaintenanceList(AsyncResponse resp){
+            delegate = resp;
+        }
+        protected String doInBackground(String... params) {
+            String response = "";
+
+            try {
+                String groupid = params[0];
+
+                String urlParameters = "groupid=" + URLEncoder.encode(groupid, "UTF-8");
+                URL url = new URL("http://104.236.10.133/get_maintenance_list.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+            } catch (MalformedURLException ex) {
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+
+            }
+            catch (IOException ex) {
+
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            return response;
+        }
+        protected void onPostExecute(String result) {
+            try {
+                JSONArray json = new JSONArray(result);
+                for (int i = 0; i < json.length(); i++) {
+                    JSONObject json_obj = json.getJSONObject(i);
+                    String id = json_obj.get("id").toString();
+                    String desc = json_obj.get("desc").toString();
+                    String causingUser = json_obj.get("causingUser").toString();
+                    String purchaseUser = json_obj.get("purchaseUser").toString();
+                    String isComplete = json_obj.get("isComplete").toString();
+
+                    int mnt_id = Integer.valueOf(id);
+                    int isComp = Integer.valueOf(isComplete);
+                    boolean isDone = false;
+                    if (isComp == 0) {
+                        isDone = true;
+                    }
+                    MaintenanceItem maint_item = new MaintenanceItem(mnt_id, desc, causingUser, purchaseUser, isDone);
+                    mnt_itm.add(maint_item);
+                }
+                MaintenanceList mainten_list = new MaintenanceList(mnt_itm);
+                delegate.processFinish(mainten_list);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

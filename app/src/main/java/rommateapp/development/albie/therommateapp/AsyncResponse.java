@@ -7,4 +7,5 @@ import java.util.ArrayList;
 public interface AsyncResponse {
     void processFinish(ArrayList<Chore> output);
     void processFinish(GroceryList gl);
+    void processFinish(MaintenanceList ml);
 }
