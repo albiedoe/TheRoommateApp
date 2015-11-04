@@ -740,6 +740,7 @@ public class HTTP_Connector extends Activity {
                     String causingUser = json_obj.get("causingUser").toString();
                     String purchaseUser = json_obj.get("purchaseUser").toString();
                     String isComplete = json_obj.get("isComplete").toString();
+                    String groupid = json_obj.get("groupid").toString();
 
                     int mnt_id = Integer.valueOf(id);
                     int isComp = Integer.valueOf(isComplete);
@@ -747,7 +748,7 @@ public class HTTP_Connector extends Activity {
                     if (isComp == 0) {
                         isDone = true;
                     }
-                    MaintenanceItem maint_item = new MaintenanceItem(mnt_id, desc, causingUser, purchaseUser, isDone);
+                    MaintenanceItem maint_item = new MaintenanceItem(mnt_id, desc, causingUser, purchaseUser, Integer.valueOf(groupid), isDone);
                     mnt_itm.add(maint_item);
                 }
                 MaintenanceList mainten_list = new MaintenanceList(mnt_itm);
@@ -755,6 +756,64 @@ public class HTTP_Connector extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+
+
+    class addMaintenanceItem extends AsyncTask<MaintenanceItem, String, String> {
+        protected String doInBackground(MaintenanceItem... params) {
+            String response = "";
+            try {
+                MaintenanceItem mntce_obj = params[0];
+                String desc = mntce_obj.desc;
+                String causingUser = mntce_obj.causingUser;
+                String purchaseUser = mntce_obj.purchaseUser;
+                Boolean isComplete = mntce_obj.isComplete;
+                String isComplet = isComplete.toString();
+
+                int groupid = mntce_obj.groupid;
+                String g_id = Integer.toString(groupid);
+
+                String urlParameters = "desc=" + URLEncoder.encode(desc, "UTF-8")
+                        + "&causingUser=" + URLEncoder.encode(causingUser, "UTF-8")
+                        + "&purchaseuser=" + URLEncoder.encode(purchaseUser, "UTF-8")
+                        + "&isComplete=" + URLEncoder.encode(isComplet, "UTF-8")
+                        + "&groupid=" + URLEncoder.encode(g_id, "UTF-8");
+                URL url = new URL("http://104.236.10.133/add_maintenance_item.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+            } catch (MalformedURLException ex) {
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+
+            }
+// and some more
+            catch (IOException ex) {
+
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
         }
     }
 

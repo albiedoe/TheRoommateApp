@@ -10,10 +10,11 @@ public class MaintenanceItem {
     public String desc;
     public String causingUser;
     public String purchaseUser;
+    public int groupid;
     public boolean isComplete = false;
 
     public MaintenanceItem(int MaintenanceItemId, String desc,
-                           String causingUser, String purchaseUser, boolean isComplete){
+                           String causingUser, String purchaseUser, int groupid, boolean isComplete){
         this.MaintenanceItemId = MaintenanceItemId;
         this.desc = desc;
         this.causingUser = causingUser;
