@@ -817,5 +817,104 @@ public class HTTP_Connector extends Activity {
         }
     }
 
+    class editMaintenanceItem extends AsyncTask<MaintenanceItem, String, String> {
+        protected String doInBackground(MaintenanceItem... params) {
+            String response = "";
+            try {
+                MaintenanceItem mntce_obj = params[0];
+                String desc = mntce_obj.desc;
+                String causingUser = mntce_obj.causingUser;
+                String purchaseUser = mntce_obj.purchaseUser;
+                Boolean isComplete = mntce_obj.isComplete;
+                String isComplet = isComplete.toString();
+
+                int groupid = mntce_obj.groupid;
+                String g_id = Integer.toString(groupid);
+
+                String urlParameters = "desc=" + URLEncoder.encode(desc, "UTF-8")
+                        + "&causingUser=" + URLEncoder.encode(causingUser, "UTF-8")
+                        + "&purchaseuser=" + URLEncoder.encode(purchaseUser, "UTF-8")
+                        + "&isComplete=" + URLEncoder.encode(isComplet, "UTF-8")
+                        + "&groupid=" + URLEncoder.encode(g_id, "UTF-8");
+                URL url = new URL("http://104.236.10.133/edit_maintenance_item.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+            } catch (MalformedURLException ex) {
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+
+            }
+// and some more
+            catch (IOException ex) {
+
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    class deleteMaintenanceItem extends AsyncTask<String, String, String> {
+        protected String doInBackground(String... params) {
+            String response = "";
+            try {
+                String mntc_id = params[0];
+
+                String urlParameters = "mntc_id=" + URLEncoder.encode(mntc_id, "UTF-8");
+                URL url = new URL("http://104.236.10.133/delete_maintenance_item.php");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setDoOutput(true);
+                DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
+                dStream.writeBytes(urlParameters);
+                dStream.flush();
+                dStream.close();
+
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+            } catch (MalformedURLException ex) {
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+
+            }
+// and some more
+            catch (IOException ex) {
+
+                Toast.makeText(ctx, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 
 }
